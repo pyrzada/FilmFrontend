@@ -1,0 +1,22 @@
+.single-image {
+  width: 50%;
+  margin: auto;
+}
+
+.single-image-src {
+  width: 50%;
+}
+
+.next-pre-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  /*width: 50%;*/
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  cursor: pointer;
+}

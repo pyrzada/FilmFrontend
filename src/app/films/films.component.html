@@ -1,0 +1,54 @@
+<div class="images">
+  <a mat-flat-button color="primary" class="floating-button" routerLink="/films/create">
+    <mat-icon>add</mat-icon>
+    Create New Film
+  </a>
+  <div class="single-image">
+    <mat-card style="width:50%;margin: auto">
+      <mat-card-header>
+        <img [src]="env+'uploads/'+films_data[current_index].image_url" class="single-image-src"/>
+
+      </mat-card-header>
+      <mat-card-content style="display: flex;flex-direction: column;padding: 5%">
+        <label><strong>Name:</strong>{{films_data[current_index].name}}</label>
+        <label><strong>Description:</strong>{{films_data[current_index].description}}</label>
+        <label><strong>Release Date:</strong>{{films_data[current_index].release_date}}</label>
+        <label><strong>Ticket Price:</strong>{{films_data[current_index].ticket_price}} USD</label>
+        <label><strong>Country:</strong>{{films_data[current_index].country}}</label>
+        <label><strong>Genre:</strong>
+          <mat-chip-list
+            class="example-chip"
+            cdkDropList
+            cdkDropListOrientation="horizontal">
+            <mat-chip
+              class="example-box"
+              cdkDrag
+              *ngFor="let single_genre of films_data[current_index].genre">
+              {{single_genre}}
+            </mat-chip>
+          </mat-chip-list>
+
+        </label>
+        <label><strong>Rating:</strong>
+          <ng-container
+            *ngFor="let single_rating of [].constructor(getParsed(films_data[current_index].rating));let i=index">
+            <mat-icon style="color: gold">grade</mat-icon>
+          </ng-container>
+          <mat-icon style="color: gold"
+                    *ngIf="films_data[current_index].rating%getParsed(films_data[current_index].rating)>0">star_half
+          </mat-icon>
+
+        </label>
+        <a mat-flat-button color="accent"> Details</a>
+      </mat-card-content>
+      <div class="next-pre-buttons">
+        <button mat-button color="accent" type="button" (click)="moveNext()">Next</button>
+        <button mat-button color="primary" type="button" *ngIf="current_index>0" (click)="movePrevious()">Previous
+        </button>
+      </div>
+
+    </mat-card>
+
+  </div>
+
+</div>

@@ -1,0 +1,36 @@
+
+<form [formGroup]="film_form" class="film-form">
+  <mat-form-field>
+    <mat-label for="name">Name</mat-label>
+    <input matInput type="text" formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="description">Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="release_date">Release Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="release_date">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="rating">Rating</mat-label>
+    <input matInput min="1" max="1" formControlName="rating"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="ticket_price">Ticket Price</mat-label>
+    <input matInput type="number" formControlName="ticket_price">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label for="country">Country</mat-label>
+    <input matInput type="text" formControlName="country">
+  </mat-form-field>
+  <input
+    formControlName="image_url"
+    id="file"
+    type="file"
+    class="form-control"
+    (change)="onFileChange($event)">
+</form>
