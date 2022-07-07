@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FilmsComponent} from "./films/films.component";
 import {CreateFilmComponent} from "./create-film/create-film.component";
+import {FilmDetailComponent} from "./film-detail/film-detail.component";
 
 const routes: Routes = [
   {
@@ -10,9 +11,13 @@ const routes: Routes = [
   {
     path: 'films', component: FilmsComponent
   },
+
   {
     path: 'films/create', component: CreateFilmComponent
-  }
+  },
+  {
+    path: 'films/:name', component: FilmDetailComponent
+  },
 ];
 
 @NgModule({

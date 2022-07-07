@@ -6,16 +6,21 @@
   <div class="single-image" *ngIf="success">
     <mat-card style="width:50%;margin: auto">
       <mat-card-header>
-        <img [src]="env+films_data[current_index].image_url" class="single-image-src"/>
+        <img [src]="env+'uploads/'+films_data[current_index]?.image_url" class="single-image-src"/>
 
       </mat-card-header>
       <mat-card-content style="display: flex;flex-direction: column;padding: 5%">
-        <label><strong>Name:</strong>{{films_data[current_index].name}}</label>
-        <label><strong>Description:</strong>{{films_data[current_index].description}}</label>
-        <label><strong>Release Date:</strong>{{films_data[current_index].release_date | date}}</label>
-        <label><strong>Ticket Price:</strong>{{films_data[current_index].ticket_price}} USD</label>
-        <label><strong>Country:</strong>{{films_data[current_index].country}}</label>
-        <label><strong>Genre:</strong>
+        <label><strong>Name: </strong>{{films_data[current_index].name}}</label>
+        <br/>
+        <label><strong>Description: </strong>{{films_data[current_index].description}}</label>
+        <br/>
+        <label><strong>Release Date: </strong>{{films_data[current_index].release_date | date}}</label>
+        <br/>
+        <label><strong>Ticket Price: </strong>{{films_data[current_index].ticket_price}} USD</label>
+        <br/>
+        <label><strong>Country: </strong>{{films_data[current_index].country}}</label>
+        <br/>
+        <label><strong>Genre: </strong>
           <mat-chip-list
             class="example-chip"
             cdkDropList
@@ -27,9 +32,9 @@
               {{single_genre}}
             </mat-chip>
           </mat-chip-list>
-
         </label>
-        <label><strong>Rating:</strong>
+        <br/>
+        <label [matTooltip]="films_data[current_index].rating"><strong>Rating:</strong>
           <ng-container
             *ngFor="let single_rating of [].constructor(getParsed(films_data[current_index].rating));let i=index">
             <mat-icon style="color: gold">grade</mat-icon>
@@ -39,10 +44,13 @@
           </mat-icon>
 
         </label>
-        <a mat-flat-button color="accent"> Details</a>
+        <br/>
+        <a mat-flat-button color="accent" [routerLink]="'/films/'+films_data[current_index].name"> Details</a>
       </mat-card-content>
       <div class="next-pre-buttons" *ngIf="films_data.length>1">
-        <button mat-button color="accent" type="button" (click)="moveNext()">Next</button>
+        <button mat-button color="accent" type="button" (click)="moveNext()" *ngIf="current_index!=films_data.length-1">
+          Next
+        </button>
         <button mat-button color="primary" type="button" *ngIf="current_index>0" (click)="movePrevious()">Previous
         </button>
       </div>

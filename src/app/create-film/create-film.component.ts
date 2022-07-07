@@ -1,10 +1,12 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidationErrors, Validator, Validators} from "@angular/forms";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {map, Observable, startWith} from "rxjs";
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FilmsService} from "../services/films.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-film',
@@ -21,7 +23,7 @@ export class CreateFilmComponent implements OnInit {
   allGenres: string[] = ["Romance", "Acton", "Drama", "Suspense"];
   private file: any;
 
-  constructor(private formBuilder: FormBuilder, private filmsService: FilmsService, private cd: ChangeDetectorRef) {
+  constructor(private formBuilder: FormBuilder, private filmsService: FilmsService, private toaster: ToastrService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,13 +37,13 @@ export class CreateFilmComponent implements OnInit {
 
   private createForm() {
     this.film_form = this.formBuilder.group({
-      name: ['Name', Validators.required],
-      description: ['Desc', Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
       release_date: [new Date(), Validators.required],
       ticket_price: [0, Validators.required],
       rating: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      country: ['Pak', Validators.required],
-      image_url: [null, Validators.required],
+      country: ['', Validators.required],
+      image_url: [null],
       genre: ['', Validators.required],
     })
   }
@@ -69,7 +71,7 @@ export class CreateFilmComponent implements OnInit {
     // Clear the input value
     event.chipInput!.clear();
 
-    this.film_form.controls['genre'].setValue(null);
+    // this.film_form.controls['genre'].setValue(null);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -88,9 +90,23 @@ export class CreateFilmComponent implements OnInit {
   }
 
   submitGenreForm() {
+    if (this.film_form.invalid) {
+      this.toaster.error("Please fill required fields");
+      return;
+    }
+    if (!this.film_form.value.image_url) {
+      this.toaster.error("File is required");
+      return;
+    }
     this.film_form.value.genre = this.genres;
-    this.filmsService.createFilm(this.film_form.value, this.genres).subscribe((data) => {
-      console.log(data)
+    this.filmsService.createFilm(this.film_form.value, this.genres).subscribe((data: any) => {
+
+      if (data.success) {
+        this.toaster.success(data.message);
+        this.router.navigate(['/']);
+      } else {
+        this.toaster.error(data.message)
+      }
     });
   }
 }

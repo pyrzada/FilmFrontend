@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-nav-list class="list-horizontal" style="display: flex;margin:auto">
+    <mat-list-item>
+      <button mat-flat-button routerLink="/films" color="primary">All Films</button>
+    </mat-list-item>
+    <ng-container *ngIf="!logged_in">
+      <mat-list-item>
+        <button mat-flat-button color="primary" (click)="openLoginModal()">Login</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-flat-button color="primary" (click)="openRegisterModal()">Register</button>
+      </mat-list-item>
+    </ng-container>
+    <ng-container *ngIf="logged_in">
+      <mat-list-item>
+        <button mat-flat-button color="primary" (click)="logout()">Logout</button>
+      </mat-list-item>
+    </ng-container>
+
+
+  </mat-nav-list>
+</mat-toolbar>

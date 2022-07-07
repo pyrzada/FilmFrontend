@@ -1,0 +1,75 @@
+<mat-card style="width:50%;margin: auto">
+  <mat-card-header>
+    <img [src]="env+'uploads/'+films_data?.image_url" class="single-image-src"/>
+
+  </mat-card-header>
+  <mat-card-content class="flex-col">
+    <label><strong>Name: </strong>{{films_data?.name}}</label>
+    <br/>
+    <label><strong>Description: </strong>{{films_data?.description}}</label>
+    <br/>
+
+    <label><strong>Release Date: </strong>{{films_data?.release_date | date}}</label>
+    <br/>
+
+    <label><strong>Ticket Price: </strong>{{films_data?.ticket_price}} USD</label>
+    <br/>
+
+    <label><strong>Country: </strong>{{films_data?.country}}</label>
+    <br/>
+
+    <label><strong>Genre: </strong>
+      <mat-chip-list
+        class="example-chip"
+        cdkDropList
+        cdkDropListOrientation="horizontal">
+        <mat-chip
+          class="example-box"
+          cdkDrag
+          *ngFor="let single_genre of films_data?.genre">
+          {{single_genre}}
+        </mat-chip>
+      </mat-chip-list>
+
+    </label>
+    <br/>
+
+    <label [matTooltip]="films_data.rating"><strong>Rating:</strong>
+      <ng-container
+        *ngFor="let single_rating of [].constructor(getParsed(films_data.rating));let i=index">
+        <mat-icon style="color: gold">grade</mat-icon>
+      </ng-container>
+      <mat-icon style="color: gold"
+                *ngIf="films_data.rating%getParsed(films_data.rating)>0">star_half
+      </mat-icon>
+
+    </label>
+    <br/>
+
+    <h1 *ngIf="!logged_in">Please Login to comment</h1>
+    <div *ngIf="logged_in">
+      <div class="comments mat-typography">
+        <h2>Comments</h2>
+        <ng-container *ngFor="let single_comment of comments">
+          <div class="comments-body">
+            <span class="user-name">{{single_comment.name}} Says :</span>
+            <div class="comment">{{single_comment.comment}}</div>
+          </div>
+          <hr/>
+        </ng-container>
+      </div>
+      <form [formGroup]="comments_form" (submit)="addComment()" class="flex-col">
+        <mat-form-field>
+          <mat-label for="name">Name</mat-label>
+          <input matInput formControlName="name" type="text">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="comment">Comment</mat-label>
+          <textarea matInput formControlName="comment"></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit">Comment</button>
+      </form>
+    </div>
+  </mat-card-content>
+
+</mat-card>

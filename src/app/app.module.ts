@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {FilmsComponent} from './films/films.component';
 import {RouterModule} from "@angular/router";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -20,34 +20,56 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ToastrModule} from "ngx-toastr";
+import {NavbarComponent} from './navbar/navbar.component';
+import {FilmDetailComponent} from './film-detail/film-detail.component';
+import {MatListModule} from "@angular/material/list";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {TokenInterceptor} from "./services/token.interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
     FilmsComponent,
-    CreateFilmComponent
+    CreateFilmComponent,
+    NavbarComponent,
+    FilmDetailComponent,
+    LoginComponent,
+    RegisterComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSliderModule,
-        FormsModule,
-        MatAutocompleteModule,
-        MatTooltipModule
-    ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatTooltipModule,
+    ToastrModule.forRoot(),
+    MatListModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatDialogModule
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [LoginComponent]
 })
 export class AppModule {
 }

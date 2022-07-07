@@ -16,7 +16,6 @@ export class FilmsService {
   }
 
   createFilm(genre: any, genres: string[]) {
-    console.log(genres);
     let formData = new FormData();
     formData.append("name", genre.name);
     formData.append("description", genre.description);
@@ -28,6 +27,18 @@ export class FilmsService {
     formData.append("image_url", genre.image_url);
 
     return this.http.post(environment.api_url + 'films/', formData);
+  }
+
+  getSingleFilm(film_name: String) {
+    return this.http.get(environment.api_url + 'films/' + film_name);
+  }
+
+  getComments(film_id: string) {
+    return this.http.post(environment.api_url + 'comments/get', {film_id: film_id});
+  }
+
+  createComment(comment_data: any) {
+    return this.http.post(environment.api_url + 'comments', comment_data);
 
   }
 }
