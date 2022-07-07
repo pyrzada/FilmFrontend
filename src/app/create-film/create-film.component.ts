@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {map, Observable, startWith} from "rxjs";
@@ -21,7 +21,7 @@ export class CreateFilmComponent implements OnInit {
   allGenres: string[] = ["Romance", "Acton", "Drama", "Suspense"];
   private file: any;
 
-  constructor(private formBuilder: FormBuilder, private filmsService: FilmsService) {
+  constructor(private formBuilder: FormBuilder, private filmsService: FilmsService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -46,10 +46,8 @@ export class CreateFilmComponent implements OnInit {
     })
   }
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      this.film_form.controls['image_url'].setValue(event.target.files[0]);
-    }
+  onFileChange(input: any) {
+    this.film_form.value.image_url = input.files[0];
   }
 
   remove(fruit: string): void {
@@ -71,7 +69,7 @@ export class CreateFilmComponent implements OnInit {
     // Clear the input value
     event.chipInput!.clear();
 
-    this.film_form.genres.setValue(null);
+    this.film_form.controls['genre'].setValue(null);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -90,9 +88,8 @@ export class CreateFilmComponent implements OnInit {
   }
 
   submitGenreForm() {
-    this.film_form.value.genres = this.allGenres;
-    console.log(this.file);
-    this.filmsService.createFilm(this.film_form.value, this.file).subscribe((data) => {
+    this.film_form.value.genre = this.genres;
+    this.filmsService.createFilm(this.film_form.value, this.genres).subscribe((data) => {
       console.log(data)
     });
   }

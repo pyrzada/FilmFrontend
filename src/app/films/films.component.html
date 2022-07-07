@@ -6,13 +6,13 @@
   <div class="single-image" *ngIf="success">
     <mat-card style="width:50%;margin: auto">
       <mat-card-header>
-        <img [src]="env+'uploads/'+films_data[current_index].image_url" class="single-image-src"/>
+        <img [src]="env+films_data[current_index].image_url" class="single-image-src"/>
 
       </mat-card-header>
       <mat-card-content style="display: flex;flex-direction: column;padding: 5%">
         <label><strong>Name:</strong>{{films_data[current_index].name}}</label>
         <label><strong>Description:</strong>{{films_data[current_index].description}}</label>
-        <label><strong>Release Date:</strong>{{films_data[current_index].release_date}}</label>
+        <label><strong>Release Date:</strong>{{films_data[current_index].release_date | date}}</label>
         <label><strong>Ticket Price:</strong>{{films_data[current_index].ticket_price}} USD</label>
         <label><strong>Country:</strong>{{films_data[current_index].country}}</label>
         <label><strong>Genre:</strong>
@@ -41,7 +41,7 @@
         </label>
         <a mat-flat-button color="accent"> Details</a>
       </mat-card-content>
-      <div class="next-pre-buttons">
+      <div class="next-pre-buttons" *ngIf="films_data.length>1">
         <button mat-button color="accent" type="button" (click)="moveNext()">Next</button>
         <button mat-button color="primary" type="button" *ngIf="current_index>0" (click)="movePrevious()">Previous
         </button>
@@ -50,6 +50,6 @@
     </mat-card>
 
   </div>
-  <h1>No Films Found!</h1>
+  <h1 *ngIf="!success">No Films Found!</h1>
 
 </div>

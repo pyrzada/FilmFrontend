@@ -57,6 +57,7 @@
     id="file"
     type="file"
     class="form-control"
-    (change)="onFileChange($event)">
+    #fileInput
+    (change)="onFileChange(fileInput)">
   <button mat-flat-button type="submit" color="primary">Create</button>
 </form>
