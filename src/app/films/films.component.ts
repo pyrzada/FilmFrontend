@@ -12,6 +12,7 @@ export class FilmsComponent implements OnInit {
   films_data: any;
   env = environment.api_url;
   current_index: number = 0;
+  success = true;
 
   constructor(private filmsService: FilmsService) {
   }
@@ -22,6 +23,7 @@ export class FilmsComponent implements OnInit {
 
   private getFilms() {
     this.filmsService.getAllFilms().subscribe((data: any) => {
+      this.success = data.success;
       this.films_data = data.data;
     })
   }

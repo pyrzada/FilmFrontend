@@ -3,7 +3,7 @@
     <mat-icon>add</mat-icon>
     Create New Film
   </a>
-  <div class="single-image">
+  <div class="single-image" *ngIf="success">
     <mat-card style="width:50%;margin: auto">
       <mat-card-header>
         <img [src]="env+'uploads/'+films_data[current_index].image_url" class="single-image-src"/>
@@ -50,5 +50,6 @@
     </mat-card>
 
   </div>
+  <h1>No Films Found!</h1>
 
 </div>
